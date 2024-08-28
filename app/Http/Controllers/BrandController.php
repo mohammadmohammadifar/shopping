@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
 use Illuminate\Http\Request;
+use RealRashid\SweetAlert\Facades\Alert;
+
 
 class BrandController extends Controller
 {
@@ -11,7 +14,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+        $brands=Brand::orderByDesc('created_at')->paginate(5);
+        return view('admin.brands.index',compact('brands'));
     }
 
     /**
@@ -19,7 +23,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.brands.create');
     }
 
     /**
@@ -27,7 +31,20 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'name'=>'required'
+        ]);
+
+        Brand::create([
+            'name'=>$request->name
+        ]);
+
+        alert()->success('Tnx','brand is create');
+
+        return redirect()->back();
+
+
     }
 
     /**
