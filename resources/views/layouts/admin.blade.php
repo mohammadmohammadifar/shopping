@@ -75,6 +75,11 @@
 
         <!-- / Menu -->
 
+        {{-- alert --}}
+        @include('sweetalert::alert')
+
+
+
         <!-- Layout container -->
         <div class="layout-page">
           <!-- Navbar -->

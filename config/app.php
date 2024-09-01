@@ -201,6 +201,10 @@ return [
         // sweetAlert
         RealRashid\SweetAlert\SweetAlertServiceProvider::class,
 
+        // permission
+        Spatie\Permission\PermissionServiceProvider::class,
+
+
 
     ],
 

@@ -4,7 +4,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
-            <form action="{{ route('categories.store') }}" method="POST">
+            <form action="{{ route('products.store') }}" method="POST">
                 @csrf
                 <div class="row">
 
@@ -15,13 +15,13 @@
                             placeholder="" />
                     </div>
 
-                    {{-- parent_id --}}
+                    {{-- brand_id --}}
                     <div class="mb-3 col-md-4">
-                        <label for="" class="form-label">parent_id</label>
+                        <label for="" class="form-label">brand_id</label>
                         <select class="form-select form-select-lg" name="parent_id" id="">
                             <option value="0"> بدون والد </option>
-                            @foreach ($parentCategory as $parent)
-                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            @foreach ($brands as $brand)
+                                <option value="{{ $brand->id }}">{{ $brand->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -38,6 +38,19 @@
                 </div>
 
                 <hr>
+
+                <div class="row">
+                    <div class="mb-3">
+                        <label for="" class="form-label">category</label>
+                        <select class="form-select form-select-lg" name="" id="">
+                            <option selected>Select one</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}"> {{ $category->name }} - {{$category->parent ? $category->parent->name : ''}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                </div>
 
                 <div class="row">
 
@@ -66,7 +79,7 @@
                     {{-- is_filter --}}
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">filter</label>
-                        <select class="form-select form-select-lg" name="is_filter" id="" >
+                        <select class="form-select form-select-lg" name="is_filter" id="">
                             @foreach ($attributes as $attribute)
                                 <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
                             @endforeach

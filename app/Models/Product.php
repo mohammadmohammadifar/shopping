@@ -6,11 +6,9 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
+class Product extends Model
 {
     use HasFactory, Sluggable;
-
-    protected $guarded=[];
 
     public function sluggable(): array
     {
@@ -19,15 +17,5 @@ class Category extends Model
                 'source' => 'name'
             ]
         ];
-    }
-
-    public function parent()
-    {
-        return $this->belongsTo(Category::class, 'parent_id');
-    }
-
-    public function attributes()
-    {
-        return $this->belongsToMany(Attribute::class)->withPivot('is_filter','is_variation');
     }
 }

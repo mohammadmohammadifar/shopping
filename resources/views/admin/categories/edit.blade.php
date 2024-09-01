@@ -12,7 +12,7 @@
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">Name</label>
                         <input type="text" class="form-control" name="name" id="" aria-describedby="helpId"
-                            placeholder="" />
+                            placeholder="" value="{{ $category->name }}" />
                     </div>
 
                     {{-- parent_id --}}
@@ -20,8 +20,11 @@
                         <label for="" class="form-label">parent_id</label>
                         <select class="form-select form-select-lg" name="parent_id" id="">
                             <option value="0"> بدون والد </option>
-                            @foreach ($parentCategory as $parent)
-                                <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+                            @foreach ($parentCategories as $parent)
+                                <option value="{{ $parent->id }}"
+                                    {{ $parent->id == $category->parent_id  ? 'selected' : '' }}>
+                                    {{ $parent->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -31,8 +34,8 @@
                         <label for="" class="form-label">is_active</label>
                         <select class="form-select form-select-lg" name="is_active" id="">
                             <option selected>Select one</option>
-                            <option value="1">is_active</option>
-                            <option value="0">dis_active</option>
+                            <option value="1" {{ $category->getRawOriginal('is_active')==1 ? 'selected': '' }} >is_active</option>
+                            <option value="0" {{ $category->getRawOriginal('is_active')==1 ? '': 'selected' }}>dis_active</option>
                         </select>
                     </div>
                 </div>
@@ -47,7 +50,10 @@
                             <label for="" class="form-label">attribute</label>
                             <select class="form-select form-select-lg" name="attribute_ids[]" id="" multiple>
                                 @foreach ($attributes as $attribute)
-                                    <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                                    <option value="{{ $attribute->id }}"
+                                        {{ in_array($attribute->id, $category->attributes()->pluck('id')->toArray()) ? 'selected' :'' }}>
+                                        {{ $attribute->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
@@ -57,8 +63,11 @@
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">variations</label>
                         <select class="form-select form-select-lg" name="variation_ids[]" id="" multiple>
-                            @foreach ($attributes as $attribute)
-                                <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                            @foreach ($category->attributes()->wherePivot('is_variation',1)->get() as $attribute)
+                                <option value="{{ $attribute->id }}"
+                                    {{ in_array($attribute->id, $category->attributes()->pluck('id')->toArray()) ? 'selected' : '' }}>
+                                    {{ $attribute->name }}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -66,8 +75,8 @@
                     {{-- is_filter --}}
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">filter</label>
-                        <select class="form-select form-select-lg" name="is_filter" id="" >
-                            @foreach ($attributes as $attribute)
+                        <select class="form-select form-select-lg" name="is_filter" id="" multiple>
+                            @foreach ($category->attributes()->wherePivot('is_filter',1)->get() as $attribute)
                                 <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
                             @endforeach
                         </select>
