@@ -35,7 +35,7 @@ class RoleController extends Controller
     {
         // dd($request->all());
         $request->validate([
-            'name'=>'required'
+            'name'=>'required',
         ]);
 
         try {
@@ -43,11 +43,12 @@ class RoleController extends Controller
 
             $role=Role::create([
                 'name'=>$request->name,
+                'guard_name'=>'web'
             ]);
 
-            $permissions=$request->except('_token','name');
-            $role->givePermissionTo($permissions);
-66
+            $permission=$request->except('_token','name');
+            // dd($permissions);
+            $role->givePermissionTo($permission);
 
             DB::commit();
         } catch (\Exception $ex) {

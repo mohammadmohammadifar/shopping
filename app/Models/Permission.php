@@ -13,6 +13,8 @@ class Permission extends Model
 
     protected $guarded=[];
 
+    // public $guard_name = 'api';
+
     public function roles()
     {
         return $this->belongsTo(Role::class);
