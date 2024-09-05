@@ -45,7 +45,8 @@
                         <select class="form-select form-select-lg" name="" id="">
                             <option selected>Select one</option>
                             @foreach ($categories as $category)
-                                <option value="{{ $category->id }}"> {{ $category->name }} - {{$category->parent ? $category->parent->name : ''}}</option>
+                                <option value="{{ $category->id }}"> {{ $category->name }} -
+                                    {{ $category->parent ? $category->parent->name : '' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -85,6 +86,24 @@
                             @endforeach
                         </select>
                     </div>
+
+                    <hr>
+
+                    {{-- image --}}
+                    <div class="row">
+                        <div class="mb-3 col-md-4">
+                            <label for="" class="form-label">primary_image</label>
+                            <input type="file" class="form-control" name="primary_image" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+
+                        <div class="mb-3 col-md-4">
+                            <label for="" class="form-label">images</label>
+                            <input type="file" class="form-control" name="images[]" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+                    </div>
+
 
 
                 </div>

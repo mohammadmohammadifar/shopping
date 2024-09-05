@@ -41,7 +41,7 @@ class RoleController extends Controller
         try {
             DB::beginTransaction();
 
-            $role=Role::create([
+            $role = Role::create([
                 'name'=>$request->name,
                 'guard_name'=>'web'
             ]);

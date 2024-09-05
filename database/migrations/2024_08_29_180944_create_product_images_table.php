@@ -16,8 +16,8 @@ return new class extends Migration
 
             $table->string('image');
 
-            $table->foreignId('product_id');
-            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId ('product_id');
+            $table->foreign ('product_id')->references('id')->on('products')->onDelete('cascade');
 
             $table->timestamps();
         });

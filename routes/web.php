@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\Front\FrontController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,3 +34,14 @@ Route::prefix('/admin-panel')->group(
         Route::resource('/roles', RoleController::class);
     }
 );
+
+
+
+
+// Route::prefix('/')->group(
+//     function(){
+//         Route::get('')
+//     }
+// )
+
+Route::get('/', [FrontController::class, 'index'])->name('home.front');
