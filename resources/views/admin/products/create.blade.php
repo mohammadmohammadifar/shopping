@@ -4,7 +4,7 @@
 @section('content')
     <div class="container mt-5">
         <div class="row">
-            <form action="{{ route('products.store') }}" method="POST">
+            <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
 
@@ -18,7 +18,7 @@
                     {{-- brand_id --}}
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">brand_id</label>
-                        <select class="form-select form-select-lg" name="parent_id" id="">
+                        <select class="form-select form-select-lg" name="brand_id" id="">
                             <option value="0"> بدون والد </option>
                             @foreach ($brands as $brand)
                                 <option value="{{ $brand->id }}">{{ $brand->name }}</option>
@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="mb-3">
                         <label for="" class="form-label">category</label>
-                        <select class="form-select form-select-lg" name="" id="">
+                        <select class="form-select form-select-lg" name="category_id" id="">
                             <option selected>Select one</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}"> {{ $category->name }} -
@@ -89,18 +89,51 @@
 
                     <hr>
 
+                    {{-- variation - value --}}
+                    <div class="row">
+                        <div class="mb-3 col-md-3">
+                            <label for="" class="form-label">value</label>
+                            <input type="text" class="form-control" name="variation_values[]" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+
+                        <div class="mb-3 col-md-3">
+                            <label for="" class="form-label">price</label>
+                            <input type="text" class="form-control" name="variation_values[]" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+
+
+                        <div class="mb-3 col-md-3">
+                            <label for="" class="form-label">quantity</label>
+                            <input type="text" class="form-control" name="variation_values[]" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+
+
+                        <div class="mb-3 col-md-3">
+                            <label for="" class="form-label">sku</label>
+                            <input type="text" class="form-control" name="variation_values[]" id="" aria-describedby="helpId"
+                                placeholder="" />
+                        </div>
+                    </div>
+
+
+
+                    <hr>
+
                     {{-- image --}}
                     <div class="row">
                         <div class="mb-3 col-md-4">
                             <label for="" class="form-label">primary_image</label>
-                            <input type="file" class="form-control" name="primary_image" id="" aria-describedby="helpId"
-                                placeholder="" />
+                            <input type="file" class="form-control" name="primary_image" id=""
+                                aria-describedby="helpId" placeholder="" />
                         </div>
 
                         <div class="mb-3 col-md-4">
                             <label for="" class="form-label">images</label>
-                            <input type="file" class="form-control" name="images[]" id="" aria-describedby="helpId"
-                                placeholder="" />
+                            <input type="file" class="form-control" name="images[]" id=""
+                                aria-describedby="helpId" placeholder="" multiple/>
                         </div>
                     </div>
 

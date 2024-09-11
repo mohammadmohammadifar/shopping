@@ -26,10 +26,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $brands=Brand::all();
-        $categories=Category::all();
-        $attributes=Attribute::all();
-        return view('admin.products.create',compact('brands','categories','attributes'));
+        $brands = Brand::all();
+        $categories = Category::all();
+        $attributes = Attribute::all();
+        return view('admin.products.create', compact('brands', 'categories', 'attributes'));
     }
 
     /**
@@ -37,48 +37,64 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+        // return dd($request->primary_image);
+
+
+
+
         $request->validate([
-            'name'=>'required',
-            'brand_id'=>'required',
-            'category_id'=>'required',
+            'name' => 'required',
+            'brand_id' => 'required',
+            'category_id' => 'required',
 
         ]);
 
         try {
             DB::beginTransaction();
 
-            $ImageUpload=new ProductImageController();
-            $imagesUpload=$ImageUpload->upload($request->primary_image, $request->images);
+            $ImageUpload = new ProductImageController();
+            $imagesUpload = $ImageUpload->upload($request->primary_image, $request->images);
 
-            $product=Product::create([
-                'name'=>$request->name,
-                'brand_id'=>$request->brand_id,
+            // return dd($imagesUpload['imageUpload'] );
+
+
+            $product = Product::create([
+                'name' => $request->name,
+                'brand_id' => $request->brand_id,
+                'category_id' => $request->category_id,
                 'primary_image' => $imagesUpload['fileNamePrimaryImage'],
-                'status'=> $request->status,
-                'is_active'=>$request->is_active,
-                'delivery_amount'=>$request->delivery_amount,
+                'status' => 1,
+                'is_active' => $request->is_active,
+                'delivery_amount' =>100,
             ]);
 
-            foreach($imagesUpload['fileNameImage'] as $fileNameImage){
+            foreach ($imagesUpload['imageUpload'] as $fileNameImage) {
                 ProductImage::create([
-                    'image'=> $fileNameImage,
-                    'product_id'=>$product->id
+                    'image' => $fileNameImage,
+                    'product_id' => $product->id
                 ]);
             }
 
 
-            $productAttribute=new ProductAttributeController();
-            $productAttribute->store($request->attributes_ids, $product);
+            $productAttribute = new ProductAttributeController();
+            $productAttribute->store($request->attribute_ids, $product);
 
 
-
-            $productVaritaions=new ProductVariationController();
-            $productVaritaions->store($request->variations_ids, $product);
+            $categoryId = Category::findOrFail($request->category_id);
+            $attributeId = $categoryId->attributes()->wherePivot('is_variation', 1)->first()->id;
+            $productVaritaions = new ProductVariationController();
+            $productVaritaions->store($attributeId, $request->variation_values, $product);
 
             DB::commit();
-        } catch (\Throwable $th) {
-            //throw $th;
+        } catch (\Exception $ex) {
+            DB::rollBack();
+            alert()->error('error', $ex->getMessage());
+            return redirect()->back();
         }
+
+        alert()->success('tnx', 'product is create');
+        return redirect()->route('products.index');
     }
 
     /**

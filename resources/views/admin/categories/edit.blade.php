@@ -75,9 +75,13 @@
                     {{-- is_filter --}}
                     <div class="mb-3 col-md-4">
                         <label for="" class="form-label">filter</label>
-                        <select class="form-select form-select-lg" name="is_filter" id="" multiple>
-                            @foreach ($category->attributes()->wherePivot('is_filter',1)->get() as $attribute)
+                        <select class="form-select form-select-lg" name="is_filter" id="" >
+                            {{-- @foreach ($category->attributes()->wherePivot('is_filter',1)->get() as $attribute)
                                 <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                            @endforeach --}}
+
+                            @foreach ($attributes as $attribute)
+                                <option value="{{ $attribute->id }}" {{ in_array($attribute->id,$category->attributes()->wherePivot('is_filter',1)->pluck('id')->toArray()) ? 'selected' :'' }}> {{ $attribute->name }} </option>
                             @endforeach
                         </select>
                     </div>

@@ -10,6 +10,7 @@ class ProductAttributeController extends Controller
 {
     public function store($attributes, $product)
     {
+        // dd($attributes);
         foreach($attributes as $key=>$attribute){
             ProductAttribute::create([
                 'attribute_id'=>$key,

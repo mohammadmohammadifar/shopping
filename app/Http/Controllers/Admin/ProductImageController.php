@@ -10,16 +10,16 @@ class ProductImageController extends Controller
     public function upload($primaryImage, $images)
     {
         $fileNamePrimaryImage=$primaryImage->getClientOriginalName();
-        $fileNamePrimaryImage->move(public_path(env('UPLOAD_IMAGE')),$fileNamePrimaryImage);
+        $primaryImage->move(public_path(env('UPLOAD_IMAGE')),$fileNamePrimaryImage);
 
         $imageUpload=[];
         foreach($images as $image){
             $fileNameImage=$image->getClientOriginalName();
-            $fileNameImage->move(public_path(env('UPLOAD_IMAGE')),$fileNameImage);
+            $image->move(public_path(env('UPLOAD_IMAGE')),$fileNameImage);
 
-            array_push($fileNameImage, $imageUpload);
+            array_push($imageUpload,$fileNameImage);
         }
 
-        return ['fileNamePrimaryImage'=>$fileNamePrimaryImage ,'fileNameImage'=>$imageUpload ];
+        return ['fileNamePrimaryImage'=>$fileNamePrimaryImage ,'imageUpload'=>$imageUpload ];
     }
 }

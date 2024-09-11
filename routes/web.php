@@ -45,3 +45,7 @@ Route::prefix('/admin-panel')->group(
 // )
 
 Route::get('/', [FrontController::class, 'index'])->name('home.front');
+
+Route::get('/test',function(){
+    auth()->logout();
+});
